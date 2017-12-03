@@ -1,2 +1,3 @@
 {
-  "url" : process.env.MONGODB_URI || "mongodb://omar:pass@ds245755.mlab.com:45755/levac-on-heroku"
+  "url" : "mongodb://localhost:27017/levac"
+}

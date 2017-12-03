@@ -10,7 +10,7 @@ var express = require('express'),
 process.env.NODE_CONFIG_DIR = './app/config/json';
 config = require('config');
 
-mongoose.connect(config.url, {useMongoClient: true});
+mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 
 var app = express();
 if(config.util.getEnv('NODE_ENV') !== 'test') {
