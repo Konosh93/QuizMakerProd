@@ -6,8 +6,14 @@ var express = require('express'),
  	cors = require('cors'),
  	mongoose = require('mongoose');
 
+const mongodb_dev = require('../../secrets/json/default.json').url;
 
-mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
+if (process.env.NODE_ENV === 'production') {
+  mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});	
+} else {
+	mongoose.connect(mongodb_dev, {useMongoClient: true});
+}
+
 
 var app = express();
 app.use(cors())
@@ -15,7 +21,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
-
+app.use(morgan('combined'));
 app.get('/', function(req,res,next){
   
 })

@@ -25,16 +25,15 @@ function getAllQuizes(req, res){
 }
 
 function getMyQuizes(req, res){
-	console.log(req.user);
 	return res.json({message: 'Welcome to the quizes pagee'});
 }
 
-function postQuiz(req, res) {console.log(JSON.stringify(req.body.quiz.problems[0].question))
-	const id = req.body.quiz.id;console.log(id)
+function postQuiz(req, res) {
+	const id = req.body.quiz._id;console.log(id)
 	if (id !== 'new-quiz') {
-		standErrResponse(res, 'This is not a new quiz');
+		standardErrResponse(res, 'This is not a new quiz');
 	}
-	const quiz = req.body.quiz
+	const quiz = {title: req.body.quiz.title, problems: req.body.quiz.problems}
 	if (!quiz.title || typeof quiz.title !== 'string') {
 		return res.status(422)
 				  .json({errors: {title: 'Quiz must have a valid title'}});
@@ -52,15 +51,15 @@ function postQuiz(req, res) {console.log(JSON.stringify(req.body.quiz.problems[0
 		}
 		return _quiz.save(function(err){
 			if (err) {
-				standErrResponse(res, 'quiz could not be saved');
+				return standardErrResponse(res, 'quiz could not be saved');
 			}
-			res.status(200).json({message: 'success', quiz: {data: _quiz, id: _quiz._id}});
+			return res.status(200).json({message: 'success', quiz: {data: _quiz, id: _quiz._id}});
 		})
 		
 	});
 }
 
-const standErrResponse = (res, message) => (
+const standardErrResponse = (res, message) => (
 	res.status(422).json({errors: { message }})
 );
 
