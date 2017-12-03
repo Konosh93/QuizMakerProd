@@ -7,16 +7,9 @@ var express = require('express'),
  	mongoose = require('mongoose');
 
 
-process.env.NODE_CONFIG_DIR = './app/config/json';
-config = require('config');
-
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 
 var app = express();
-if(config.util.getEnv('NODE_ENV') !== 'test') {
-    //use morgan to log at command line
-    app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
-}
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
